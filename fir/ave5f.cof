@@ -1,0 +1,4 @@
+//ave5.cof Coefficient file for use with programs fir.c and firprn.c
+//Implements five point moving average filter
+#define N 5
+float h[N] = {0.2, 0.2, 0.2, 0.2, 0.2};

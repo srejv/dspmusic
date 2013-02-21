@@ -1,0 +1,8 @@
+/*Aliasing.gel Select aliasing (0) or antialiasing (1)*/
+
+menuitem "Aliasing Control"
+
+slider ANTIALIAS(0,1,1,1,filter_on) /*antialiasing ON if 1*/
+{
+antialiasing = filter_on;
+}

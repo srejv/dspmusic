@@ -1,0 +1,8 @@
+---------------------------  sine8_intr.pjt - Debug  ---------------------------
+[sine8_intr.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"C:/CCStudio_v3.1/MyProjects/sine8_intr/Debug" -i"c:/CCStudio_v3.1/C6000/dsk6416/include" -d"CHIP_6416" -mv6400 --mem_model:data=far -@"Debug.lkf" "sine8_intr.c"
+
+[Linking...] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -@"Debug.lkf"
+<Linking>
+
+Build Complete,
+  0 Errors, 0 Warnings, 0 Remarks.

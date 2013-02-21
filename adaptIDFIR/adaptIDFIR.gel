@@ -1,0 +1,9 @@
+/*AdaptIDFIR.GEL Slider for output of adaptive FIR, fixed FIR or error*/
+
+menuitem "Output Type"
+
+slider Output_signal(1,3,1,1,typeparameter) /*incr by 1,from 1 to 3*/
+{
+        out_type = typeparameter;      /*type of output*/
+}
+

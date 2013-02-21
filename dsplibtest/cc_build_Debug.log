@@ -1,0 +1,10 @@
+---------------------------  dsplibtest.pjt - Debug  ---------------------------
+[dsptest.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"C:/CCStudio_v3.1/MyProjects/dsplibtest/Debug" -i"c:/CCStudio_v3.1/C6000/dsk6416/include" -i"C:/CCStudio_v3.1/c6400/dsplib/include" -d"CHIP_6416" -mv6400 --mem_model:data=far -@"Debug.lkf" "dsptest.c"
+"dsptest.c", line 4: fatal error: could not open source file "fft.h"
+1 fatal error detected in the compilation of "dsptest.c".
+Compilation terminated.
+
+>> Compilation failure
+
+Build Complete,
+  1 Errors, 0 Warnings, 0 Remarks.

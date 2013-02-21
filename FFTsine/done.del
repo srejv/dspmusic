@@ -1,0 +1,7 @@
+menuitem "Done"
+
+slider Done(0, 1, 1, 1, done_parameter)
+{
+	done = done_parameter;
+}
+

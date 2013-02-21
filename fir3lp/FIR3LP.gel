@@ -1,0 +1,8 @@
+/*FIR3LP.gel Gel file to step through 3 different LP filters*/
+
+menuitem "Filter Characteristics"
+
+slider Filter(0,2,1,1,filterparameter) /*from 0 to 2,incr by 1*/
+{
+	LP_number = filterparameter;     /*for 3 LP filters*/
+}

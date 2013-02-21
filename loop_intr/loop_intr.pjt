@@ -1,0 +1,40 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="C:\CCStudio_v3.1\MyProjects\loop_intr\"
+ProjectType=Executable
+CPUFamily=TMS320C64XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="..\..\C6000\cgtools\lib\rts6400.lib"
+Source="..\..\C6000\csl\lib\csl6416.lib"
+Source="..\..\C6000\dsk6416\lib\dsk6416bsl.lib"
+Source="..\support\c6416dskinit.c"
+Source="..\support\Vectors_intr.asm"
+Source="loop_intr.c"
+Source="..\support\C6416dsk.cmd"
+
+["Compiler" Settings: "Debug"]
+Options=-g -fr"$(Proj_dir)\Debug" -i"c:\CCStudio_v3.1\C6000\dsk6416\include" -d"CHIP_6416" -mv6400 --mem_model:data=far
+
+["Compiler" Settings: "Release"]
+Options=-o3 -fr"$(Proj_dir)\Release" -mv6400
+
+["Linker" Settings: "Debug"]
+Options=-c -o".\Debug\loop_intr.out" -stack0x1000 -w -x -i"c:\CCStudio_v3.1\C6000\dsk6416\lib" -l"rts6400.lib" -l"dsk6416bsl.lib" -l"csl6416.lib"
+
+["Linker" Settings: "Release"]
+Options=-c -m".\Release\sine8_LED.map" -o".\Release\sine8_LED.out" -w -x
+
+["..\support\C6416dsk.cmd" Settings: "Debug"]
+LinkOrder=1
+
+["..\support\C6416dsk.cmd" Settings: "Release"]
+LinkOrder=1
+

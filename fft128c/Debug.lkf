@@ -1,0 +1,8 @@
+-z -c -o"./Debug/fft128c.out" -stack0x1000 -w -x -i"c:/CCStudio_v3.1/C6000/dsk6416/lib" -i"C:/CCStudio_v3.1/C6000/rtdx/lib" -i"C:/CCStudio_v3.1/C6000/csl/lib" -i"C:/CCStudio_v3.1/C6000/xdais/lib" -i"C:/CCStudio_v3.1/C6000/bios/lib" -i"C:/CCStudio_v3.1/C6000/cgtools/lib" -l"rts6400.lib" -l"dsk6416bsl.lib" -l"csl6416.lib"
+"C:\CCStudio_v3.1\MyProjects\support\C6416dsk.cmd"
+"C:\CCStudio_v3.1\MyProjects\fft128c\Debug\c6416dskinit.obj"
+"C:\CCStudio_v3.1\MyProjects\fft128c\Debug\fft128c.obj"
+"C:\CCStudio_v3.1\MyProjects\fft128c\Debug\Vectors_intr.obj"
+"C:\CCStudio_v3.1\C6000\cgtools\lib\rts6400.lib"
+"C:\CCStudio_v3.1\C6000\csl\lib\csl6416.lib"
+"C:\CCStudio_v3.1\C6000\dsk6416\lib\dsk6416bsl.lib"

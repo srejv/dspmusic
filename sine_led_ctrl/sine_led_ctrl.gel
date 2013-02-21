@@ -1,0 +1,10 @@
+/*delay.gel Slider to vary time delay*/
+
+menuitem "Delay Control"
+
+slider Time(1,10,1,1,delay_parameter) /*incr by 1,up to 10*/
+{
+  on_time = delay_parameter;	 	  /*vary on-time of LED*/
+}
+
+                             

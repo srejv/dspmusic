@@ -1,0 +1,41 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="C:\CCStudio_v3.1\MyProjects\bios_fft128c_SWI\"
+ProjectType=Executable
+CPUFamily=TMS320C64XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="..\support\c6416dskinit.c"
+Source="bios_fft128c_SWI.c"
+Source="bios_fft128c_SWI.cdb"
+
+[Generated Files]
+Source="bios_fft128c_SWIcfg.cmd"
+Source="bios_fft128c_SWIcfg.s62"
+Source="bios_fft128c_SWIcfg_c.c"
+
+["Compiler" Settings: "Debug"]
+Options=-g -fr"$(Proj_dir)\Debug" -i"c:\CCStudio_v3.1\C6000\dsk6416\include" -d"CHIP_6416" -mv6400 --mem_model:data=far
+
+["Compiler" Settings: "Release"]
+Options=-o3 -fr"$(Proj_dir)\Release" -mv6400
+
+["Linker" Settings: "Debug"]
+Options=-c -m".\Debug\bios_fft128c_SWI.map" -o".\Debug\bios_fft128c_SWI.out" -w -x -i"c:\CCStudio_v3.1\C6000\dsk6416\lib" -l"dsk6416bsl.lib"
+
+["Linker" Settings: "Release"]
+Options=-c -m".\Release\bios_fft128c_SWI.map" -o".\Release\bios_fft128c_SWI.out" -w -x
+
+["bios_fft128c_SWIcfg.cmd" Settings: "Debug"]
+LinkOrder=1
+
+["bios_fft128c_SWIcfg.cmd" Settings: "Release"]
+LinkOrder=1
+

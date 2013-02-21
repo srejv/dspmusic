@@ -1,0 +1,13 @@
+//echo_control.gel
+
+menuitem "echo control"
+
+slider gain(0,18,1,1,gain_parameter)
+{
+  gain = gain_parameter*0.05;
+}
+
+slider delay(1,20,1,1,delay_parameter)
+{
+  buflength = delay_parameter*100;
+}

@@ -1,0 +1,8 @@
+/*FIR4types.gel Gel file for 4 different filters: LP,HP,BP,BS*/
+
+menuitem "Filter Characteristics"
+
+slider Filter(0,3,1,1,filterparameter) /*from 0 to 3,incr by 1*/
+{
+	FIR_number = filterparameter;     /*for 4 FIR filters*/
+}

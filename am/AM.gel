@@ -1,0 +1,8 @@
+/*AM.gel To vary modulation*/
+
+menuitem "Modulation Characteristics"
+
+slider Amplitude(1,10,1,1,index) /*incr by 1,up to 10*/
+  {
+    amp = index;	       		 /*vary amplitude*/
+  }
