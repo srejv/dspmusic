@@ -1,0 +1,10 @@
+----------------------------  temoloo.pjt - Debug  ----------------------------
+[temolo.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"C:/CCStudio_v3.1/MyProjects/temoloo/Debug" -d"_DEBUG" -mv6400 -@"Debug.lkf" "temolo.c"
+"temolo.c", line 2: fatal error: could not open source file "DSK6416_AIC23.h"
+1 fatal error detected in the compilation of "temolo.c".
+Compilation terminated.
+
+>> Compilation failure
+
+Build Complete,
+  1 Errors, 0 Warnings, 0 Remarks.

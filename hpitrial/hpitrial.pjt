@@ -1,0 +1,42 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="C:\CCStudio_v3.1\MyProjects\hpitrial\"
+ProjectType=Executable
+CPUFamily=TMS320C64XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="..\support\c6416dskinit.c"
+Source="hpi.cdb"
+Source="hpitrial.c"
+Source="qmath.c"
+
+[Generated Files]
+Source="hpicfg.cmd"
+Source="hpicfg.s62"
+Source="hpicfg_c.c"
+
+["Compiler" Settings: "Debug"]
+Options=-g -fr"$(Proj_dir)\Debug" -i"c:\CCStudio_v3.1\C6000\dsk6416\include" -d"CHIP_6416" -mv6400 --mem_model:data=far
+
+["Compiler" Settings: "Release"]
+Options=-o3 -fr"$(Proj_dir)\Release" -mv6400
+
+["Linker" Settings: "Debug"]
+Options=-c -m".\Debug\hpitrial.map" -o".\Debug\hpitrial.out" -w -x -i"c:\CCStudio_v3.1\C6000\dsk6416\lib" -l"dsk6416bsl.lib"
+
+["Linker" Settings: "Release"]
+Options=-c -m".\Release\hpitrial.map" -o".\Release\hpitrial.out" -w -x
+
+["hpicfg.cmd" Settings: "Debug"]
+LinkOrder=1
+
+["hpicfg.cmd" Settings: "Release"]
+LinkOrder=1
+

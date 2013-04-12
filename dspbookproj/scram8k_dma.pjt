@@ -1,0 +1,38 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="C:\CCStudio_v3.1\MyProjects\dspbookproj\"
+ProjectType=Executable
+CPUFamily=TMS320C67XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="..\..\c6000\cgtools\lib\rts6701.lib"
+Source="codec_edma.c"
+Source="filter.c"
+Source="vectors.asm"
+Source="lnk.cmd"
+
+["Compiler" Settings: "Debug"]
+Options=-g -k -s -o3 -fr"C:\CCStudio_v3.1\MyProjects\dspbookproj\"
+
+["Compiler" Settings: "Release"]
+Options=-q -o3 -fr"C:\CCStudio_v3.1\MyProjects\dspbookproj\Release" -mv6700
+
+["DspBiosBuilder" Settings: "Debug"]
+Options=-v6x
+
+["DspBiosBuilder" Settings: "Release"]
+Options=-v6x
+
+["Linker" Settings: "Debug"]
+Options=-q -c -o"scram8k_dma.out" -x
+
+["Linker" Settings: "Release"]
+Options=-q -c -o".\Release\scram8k_dma.out" -x
+

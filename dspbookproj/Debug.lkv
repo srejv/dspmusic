@@ -1,0 +1,6 @@
+-z -q -c -o"scram8k_dma.out" -x -i"c:/ti/c6000/bios/lib" -i"c:/ti/c6000/rtdx/lib" -i"c:/ti/c6000/cgtools/lib"
+"C:\ti\c6000\cgtools\lib\rts6701.lib"
+"C:\ti\myprojects\scram8k_dma\codec_edma.obj"
+"C:\ti\myprojects\scram8k_dma\filter.obj"
+"C:\ti\myprojects\scram8k_dma\vectors.obj"
+"C:\C6xProjects\Scram8k_DMA\lnk.cmd"

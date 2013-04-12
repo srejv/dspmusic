@@ -1,0 +1,7 @@
+/* Pitch controls */
+
+menuitem "Tremolo Depth"
+
+slider Depth(0, 1000, 1, 1, depthParam) {
+	depth = depthParam / 1000.0f;
+}

@@ -3,7 +3,7 @@
 Uint32 fs=DSK6416_AIC23_FREQ_48KHZ;	//set sampling rate
 #define DSK6416_AIC23_INPUT_MIC 0x0015
 #define DSK6416_AIC23_INPUT_LINE 0x0011
-Uint16 inputsource=DSK6416_AIC23_INPUT_MIC; // select input
+Uint16 inputsource=DSK6416_AIC23_INPUT_LINE; // select input
 
 #define GAIN 0.6                // fraction (0 - 1) of output fed back
 #define INPGAIN 10
@@ -15,10 +15,10 @@ int i;                          // index into buffer
 interrupt void c_int11()	    // interrupt service routine
 {
   input = input_left_sample();  // read new input sample from ADC 
-  input = input << 8;
   delayed = buffer[i];          // read delayed value from buffer
   output = input + delayed;     // output sum of input and delayed values
-  output_left_sample(output);     
+  output_left_sample(output);
+  //output_right_sample(output);     
   buffer[i] = input + delayed*GAIN; // store new input and a fraction 
                                 // of the delayed value in buffer
   if(++i >= BUF_SIZE) i=0;      // test for end of buffer

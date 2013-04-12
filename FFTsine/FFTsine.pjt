@@ -19,7 +19,6 @@ Source="..\..\c6400\dsplib\lib\dsp64x.lib"
 Source="..\support\c6416dskinit.c"
 Source="..\support\Vectors_intr.asm"
 Source="FFTsine.c"
-Source="twiddlefactors16x16n8192.c"
 Source="..\support\C6416dsk.cmd"
 
 ["Compiler" Settings: "Debug"]

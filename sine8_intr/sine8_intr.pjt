@@ -17,6 +17,8 @@ Source="..\..\C6000\csl\lib\csl6416.lib"
 Source="..\..\C6000\dsk6416\lib\dsk6416bsl.lib"
 Source="..\support\c6416dskinit.c"
 Source="..\support\Vectors_intr.asm"
+Source="biquad.c"
+Source="qmath.c"
 Source="sine8_intr.c"
 Source="..\support\C6416dsk.cmd"
 

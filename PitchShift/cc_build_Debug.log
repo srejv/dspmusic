@@ -1,0 +1,11 @@
+---------------------------  PitchShift.pjt - Debug  ---------------------------
+[pitchshift.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"C:/CCStudio_v3.1/MyProjects/PitchShift/Debug" -i"C:/CCStudio_v3.1/C6000/dsk6416/include" -d"CHIP_6416" -mr0 -mv6400 --mem_model:data=far -@"Debug.lkf" "pitchshift.c"
+
+[Linking...] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -@"Debug.lkf"
+<Linking>
+>> warning: creating .stack section with default size of 400 (hex) words.
+   Use
+            -stack option to change the default size.
+
+Build Complete,
+  0 Errors, 1 Warnings, 0 Remarks.

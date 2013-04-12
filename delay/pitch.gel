@@ -1,0 +1,7 @@
+/* Pitch controls */
+
+menuitem "Pitch Step"
+
+slider Pitch(0, 48, 1, 1, pitch_param) {
+	pitch = pitch_param-24;
+}

@@ -1,0 +1,7 @@
+-z -c -m"./Debug/hpitrial.map" -o"./Debug/hpitrial.out" -w -x -i"c:/CCStudio_v3.1/C6000/dsk6416/lib" -i"C:/CCStudio_v3.1/C6000/rtdx/lib" -i"C:/CCStudio_v3.1/C6000/csl/lib" -i"C:/CCStudio_v3.1/C6000/xdais/lib" -i"C:/CCStudio_v3.1/C6000/bios/lib" -i"C:/CCStudio_v3.1/C6000/cgtools/lib" -l"dsk6416bsl.lib"
+"C:\CCStudio_v3.1\MyProjects\hpitrial\hpicfg.cmd"
+"C:\CCStudio_v3.1\MyProjects\hpitrial\Debug\c6416dskinit.obj"
+"C:\CCStudio_v3.1\MyProjects\hpitrial\Debug\hpicfg.obj"
+"C:\CCStudio_v3.1\MyProjects\hpitrial\Debug\hpicfg_c.obj"
+"C:\CCStudio_v3.1\MyProjects\hpitrial\Debug\hpitrial.obj"
+"C:\CCStudio_v3.1\MyProjects\hpitrial\Debug\qmath.obj"

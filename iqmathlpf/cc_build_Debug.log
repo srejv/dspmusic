@@ -1,0 +1,15 @@
+---------------------------  iqmathlpf.pjt - Debug  ---------------------------
+[Linking...] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -@"Debug.lkf"
+<Linking>
+>> C:\DOCUME~1\Owner\LOCALS~1\Temp\TI7083, line 30:   error: 
+               can't find input file 'IQmath_c64x'
+IQmath_c64x+
+>> C:\DOCUME~1\Owner\LOCALS~1\Temp\TI7083, line 30:   error: 
+               syntax error
+>> TI7083:   error: system error, can't open file 'l.obj' for input: No such
+                    file or directory
+
+>> Compilation failure
+
+Build Complete,
+  4 Errors, 0 Warnings, 0 Remarks.

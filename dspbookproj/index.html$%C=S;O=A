@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Index of /0-471-69007-4/Digital Signal/Scram8k_DMA</title>
+ </head>
+ <body>
+<h1>Index of /0-471-69007-4/Digital Signal/Scram8k_DMA</h1>
+<pre><img src="/icons/blank.gif" alt="Icon "> <a href="?C=N;O=A">Name</a>                           <a href="?C=M;O=A">Last modified</a>      <a href="?C=S;O=D">Size</a>  <a href="?C=D;O=A">Description</a><hr><img src="/icons/back.gif" alt="[DIR]"> <a href="/0-471-69007-4/Digital%20Signal/">Parent Directory</a>                                    -   
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="codec_edma.h">codec_edma.h</a>                   07-Dec-1999 17:56   65   
+<img src="/icons/text.gif" alt="[TXT]"> <a href="readme.txt">readme.txt</a>                     26-Oct-2001 07:31  156   
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="filter.h">filter.h</a>                       26-Apr-2001 23:21  305   
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="Debug.lkf">Debug.lkf</a>                      26-Oct-2001 07:51  322   
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="Debug.lkv">Debug.lkv</a>                      26-Oct-2001 07:51  322   
+<img src="/icons/text.gif" alt="[TXT]"> <a href="lnk.cmd">lnk.cmd</a>                        26-Oct-2001 07:33  674   
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="coeff.cof">coeff.cof</a>                      14-Apr-2000 06:37  760   
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="sine.h">sine.h</a>                         26-Apr-2001 23:22  811   
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="scram8k_dma.pjt">scram8k_dma.pjt</a>                26-Oct-2001 07:55  1.0K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="filter.c">filter.c</a>                       26-Apr-2001 23:58  1.0K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="vectors.asm">vectors.asm</a>                    26-Oct-2001 07:31  1.1K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="vectors.obj">vectors.obj</a>                    26-Oct-2001 07:51  2.1K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="scram8k_dma.paf">scram8k_dma.paf</a>                26-Oct-2001 07:55  2.3K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="cc_build_Debug.log">cc_build_Debug.log</a>             26-Oct-2001 07:51  2.4K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="filter.obj">filter.obj</a>                     26-Oct-2001 07:51  4.4K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="codec_edma.obj">codec_edma.obj</a>                 26-Oct-2001 07:51  5.2K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="codec_edma.c">codec_edma.c</a>                   26-Oct-2001 07:46  5.8K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="codec.h">codec.h</a>                        14-Apr-2000 05:14  5.9K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="C6xdsk.h">C6xdsk.h</a>                       23-Oct-2001 22:20  7.9K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="scram8k_dma.out">scram8k_dma.out</a>                26-Oct-2001 07:51   18K  
+<img src="/icons/unknown.gif" alt="[   ]"> <a href="codec_edma.asm">codec_edma.asm</a>                 26-Oct-2001 07:51   38K  
+<hr></pre>
+<address>Apache/2.0.54 (Fedora) Server at cdserv1.wbut.ac.in Port 80</address>
+</body></html>

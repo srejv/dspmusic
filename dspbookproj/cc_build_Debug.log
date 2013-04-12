@@ -1,0 +1,63 @@
+--------------------------  scram8k_dma.pjt - Debug  --------------------------
+"C:\TI\C6000\CGTOOLS\BIN\cl6x" -g -k -s -o3 -fr"C:/ti/myprojects/scram8k_dma/" -@"../../ti/myprojects/scram8k_dma/Debug.lkf" "filter.c"
+[filter.c]
+TMS320C6x ANSI C/C++ Compiler    Version 4.10
+Copyright (c) 1996-2001 Texas Instruments Incorporated
+   "filter.c"   ==> ProcBlock
+   "filter.c"   ==> filter
+   "filter.c"   ==> MultSine
+TMS320C6x ANSI C Optimizer       Version 4.10
+Copyright (c) 1996-2001 Texas Instruments Incorporated
+   "filter.c"   ==> filter
+   "filter.c"   ==> MultSine
+   "filter.c"   ==> ProcBlock
+TMS320C6x ANSI C Codegen         Version 4.10
+Copyright (c) 1996-2001 Texas Instruments Incorporated
+   "filter.c"   ==> filter
+   "filter.c"   ==> MultSine
+   "filter.c"   ==> ProcBlock
+TMS320C6x COFF Assembler         Version 4.10
+Copyright (c) 1996-2001 Texas Instruments Incorporated
+ PASS 1
+ PASS 2
+
+"C:\TI\C6000\CGTOOLS\BIN\cl6x" -g -k -s -o3 -fr"C:/ti/myprojects/scram8k_dma/" -@"../../ti/myprojects/scram8k_dma/Debug.lkf" "vectors.asm"
+<vectors.asm>
+TMS320C6x COFF Assembler         Version 4.10
+Copyright (c) 1996-2001 Texas Instruments Incorporated
+ PASS 1
+ PASS 2
+
+"C:\TI\C6000\CGTOOLS\BIN\cl6x" -g -k -s -o3 -fr"C:/ti/myprojects/scram8k_dma/" -@"Debug.lkf" "codec_edma.c"
+[codec_edma.c]
+TMS320C6x ANSI C/C++ Compiler    Version 4.10
+Copyright (c) 1996-2001 Texas Instruments Incorporated
+   "codec_edma.c"   ==> main
+   "codec_edma.c"   ==> mcbsp0_init
+   "codec_edma.c"   ==> edma_init
+   "codec_edma.c"   ==> edma_isr
+"codec_edma.c", line 137: warning: variable "i" was declared but never referenced
+TMS320C6x ANSI C Optimizer       Version 4.10
+Copyright (c) 1996-2001 Texas Instruments Incorporated
+   "codec_edma.c"   ==> mcbsp0_init
+   "codec_edma.c"   ==> edma_init
+   "codec_edma.c"   ==> main
+   "codec_edma.c"   ==> edma_isr
+TMS320C6x ANSI C Codegen         Version 4.10
+Copyright (c) 1996-2001 Texas Instruments Incorporated
+   "codec_edma.c"   ==> mcbsp0_init
+   "codec_edma.c"   ==> edma_init
+   "codec_edma.c"   ==> main
+   "codec_edma.c"   ==> edma_isr
+TMS320C6x COFF Assembler         Version 4.10
+Copyright (c) 1996-2001 Texas Instruments Incorporated
+ PASS 1
+ PASS 2
+
+"C:\TI\C6000\CGTOOLS\BIN\cl6x" -@"Debug.lkf"
+<Linking>
+>> C:\C6xProjects\Scram8k_DMA\lnk.cmd, line 20: warning: 
+               multiple sections with name .cinit
+
+Build Complete,
+  0 Errors, 2 Warnings, 0 Remarks.

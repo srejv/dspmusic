@@ -1,0 +1,5 @@
+-z -c -m"./Debug/bios_LED.map" -o"./Debug/bios_LED.out" -w -x -i"c:/CCStudio_v3.1/C6000/dsk6416/lib" -i"C:/CCStudio_v3.1/C6000/rtdx/lib" -i"C:/CCStudio_v3.1/C6000/csl/lib" -i"C:/CCStudio_v3.1/C6000/xdais/lib" -i"C:/CCStudio_v3.1/C6000/bios/lib" -i"C:/CCStudio_v3.1/C6000/cgtools/lib" -l"DSK6416bsl.lib"
+"C:\CCStudio_v3.1\MyProjects\bios_LED\bios_LEDcfg.cmd"
+"C:\CCStudio_v3.1\MyProjects\bios_LED\Debug\bios_LED.obj"
+"C:\CCStudio_v3.1\MyProjects\bios_LED\Debug\bios_LEDcfg.obj"
+"C:\CCStudio_v3.1\MyProjects\bios_LED\Debug\bios_LEDcfg_c.obj"
