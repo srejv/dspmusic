@@ -1,7 +1,7 @@
 ******************************************************************************
           TMS320C6x COFF Linker PC v5.1.0                      
 ******************************************************************************
->> Linked Fri Apr 12 13:14:03 2013
+>> Linked Wed Apr 17 17:35:44 2013
 
 OUTPUT FILE NAME:   <./Debug/hpitrial.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00013260
@@ -998,10 +998,10 @@ ffffffff   ___binit__
 00008278   _qsqrt
 00008d8c   _qtan
 0000d600   _realloc
+000135be   _result
 00012788   _rtdx_buffer_state
 000127a8   _rtdx_mon_state
 000135ac   _tmp
-000135be   _uasdf
 ffffffff   binit
 00010420   cinit
 00000000   edata
@@ -1623,7 +1623,7 @@ address    name
 000135b0   _pGain
 000135b8   _bufferindex
 000135bc   _bufferflag
-000135be   _uasdf
+000135be   _result
 00013628   __lock
 0001362c   __unlock
 00013630   _DSK6416_AIC23_codeccontrolhandle
@@ -1631,8 +1631,8 @@ address    name
 00013638   _SYS_PUTCBEG
 00013837   _SYS_PUTCEND
 00013838   RTA_fromHost$pipe
-00013838   PIP_A_TABBEG
 00013838   _PIP_A_TABBEG
+00013838   PIP_A_TABBEG
 0001383c   RTA_fromHost$pipe$rd
 00013868   RTA_fromHost$pipe$aaa
 0001386c   RTA_fromHost$pipe$wr
@@ -1642,15 +1642,15 @@ address    name
 000138cc   RTA_toHost$pipe$aaa
 000138d0   RTA_toHost$pipe$wr
 000138fc   RTA_toHost$pipe$bbb
-00013900   _PIP_A_TABEND
-00013900   PIP_A_TABEND
 00013900   LOG_system$buf
+00013900   PIP_A_TABEND
+00013900   _PIP_A_TABEND
 00013b80   RTA_toHost$buf
-00013c8c   _TSK_idle
 00013c8c   TSK_idle
-00013ce0   KNL_swi
-00013ce0   _KNL_swi
+00013c8c   _TSK_idle
 00013ce0   SWI_A_TABBEG
+00013ce0   _KNL_swi
+00013ce0   KNL_swi
 00013d0c   SWI_process_isr
 00013d0c   _SWI_process_isr
 00013d38   KNL_swi$sts$stsobj

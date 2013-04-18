@@ -1,0 +1,43 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="c:\CCStudio_v3.1\myprojects\bradpitch\"
+ProjectType=Executable
+CPUFamily=TMS320C64XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="..\support\c6416dskinit.c"
+Source="bradpitch6416.cdb"
+Source="main.c"
+Source="qmath.c"
+Source="wt.c"
+
+[Generated Files]
+Source="bradpitch6416cfg.cmd"
+Source="bradpitch6416cfg.s62"
+Source="bradpitch6416cfg_c.c"
+
+["Compiler" Settings: "Debug"]
+Options=-g -fr"$(Proj_dir)\Debug" -i"c:\CCStudio_v3.1\C6000\dsk6416\include" -d"CHIP_6416" -mv6400 --mem_model:data=far
+
+["Compiler" Settings: "Release"]
+Options=-o3 -fr"$(Proj_dir)\Release" -mv6400
+
+["Linker" Settings: "Debug"]
+Options=-c -heap0x1000 -m".\Debug\bradpitch.map" -o".\Debug\bradpitch.out" -w -x -i"c:\CCStudio_v3.1\C6000\dsk6416\lib" -l"dsk6416bsl.lib"
+
+["Linker" Settings: "Release"]
+Options=-c -m".\Release\bradpitch.map" -o".\Release\bradpitch.out" -w -x
+
+["bradpitch6416cfg.cmd" Settings: "Debug"]
+LinkOrder=1
+
+["bradpitch6416cfg.cmd" Settings: "Release"]
+LinkOrder=1
+

@@ -3,8 +3,6 @@
 
 [Vectors_intr.asm] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"C:/CCStudio_v3.1/MyProjects/echo_control/Debug" -i"c:/CCStudio_v3.1/C6000/dsk6416/include" -d"CHIP_6416" -mv6400 --mem_model:data=far -@"../echo_control/Debug.lkf" "Vectors_intr.asm"
 
-[echo_control.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"C:/CCStudio_v3.1/MyProjects/echo_control/Debug" -i"c:/CCStudio_v3.1/C6000/dsk6416/include" -d"CHIP_6416" -mv6400 --mem_model:data=far -@"Debug.lkf" "echo_control.c"
-
 [Linking...] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -@"Debug.lkf"
 <Linking>
 

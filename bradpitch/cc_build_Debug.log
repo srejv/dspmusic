@@ -1,0 +1,9 @@
+---------------------------  bradpitch.pjt - Debug  ---------------------------
+[main.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"c:/CCStudio_v3.1/myprojects/bradpitch/Debug" -i"c:/CCStudio_v3.1/C6000/dsk6416/include" -d"CHIP_6416" -mv6400 --mem_model:data=far -@"Debug.lkf" "main.c"
+"main.c", line 80: warning: variable "i" was declared but never referenced
+
+[Linking...] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -@"Debug.lkf"
+<Linking>
+
+Build Complete,
+  0 Errors, 1 Warnings, 0 Remarks.

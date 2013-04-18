@@ -1,0 +1,23 @@
+--------------------------  sine_intr.pjt - Release  --------------------------
+[c6416dskinit.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -o3 -fr"C:/CCStudio_v3.1/MyProjects/sine_intr/Release" -mv6400 -@"../sine_intr/Release.lkf" "c6416dskinit.c"
+"C6416dskinit.h", line 3: fatal error: could not open source file "dsk6416.h"
+1 fatal error detected in the compilation of "c6416dskinit.c".
+Compilation terminated.
+
+>> Compilation failure
+
+[Vectors_intr.asm] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -o3 -fr"C:/CCStudio_v3.1/MyProjects/sine_intr/Release" -mv6400 -@"../sine_intr/Release.lkf" "Vectors_intr.asm"
+
+[qmath.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -o3 -fr"C:/CCStudio_v3.1/MyProjects/sine_intr/Release" -mv6400 -@"Release.lkf" "qmath.c"
+
+[sine_intr.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -o3 -fr"C:/CCStudio_v3.1/MyProjects/sine_intr/Release" -mv6400 -@"Release.lkf" "sine_intr.c"
+"sine_intr.c", line 3: fatal error: could not open source file "DSK6416_AIC23.h"
+1 fatal error detected in the compilation of "sine_intr.c".
+Compilation terminated.
+
+>> Compilation failure
+
+[wt.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -o3 -fr"C:/CCStudio_v3.1/MyProjects/sine_intr/Release" -mv6400 -@"Release.lkf" "wt.c"
+
+Build Complete,
+  2 Errors, 0 Warnings, 0 Remarks.

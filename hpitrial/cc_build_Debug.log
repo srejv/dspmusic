@@ -1,5 +1,5 @@
 ----------------------------  hpitrial.pjt - Debug  ----------------------------
-[hpitrial.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"C:/CCStudio_v3.1/MyProjects/hpitrial/Debug" -i"c:/CCStudio_v3.1/C6000/dsk6416/include" -d"CHIP_6416" -mv6400 --mem_model:data=far -@"Debug.lkf" "hpitrial.c"
+[c6416dskinit.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"C:/CCStudio_v3.1/MyProjects/hpitrial/Debug" -i"c:/CCStudio_v3.1/C6000/dsk6416/include" -d"CHIP_6416" -mv6400 --mem_model:data=far -@"../hpitrial/Debug.lkf" "c6416dskinit.c"
 
 [Linking...] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -@"Debug.lkf"
 <Linking>

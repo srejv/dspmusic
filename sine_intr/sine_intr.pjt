@@ -17,7 +17,9 @@ Source="..\..\C6000\csl\lib\csl6416.lib"
 Source="..\..\C6000\dsk6416\lib\dsk6416bsl.lib"
 Source="..\support\c6416dskinit.c"
 Source="..\support\Vectors_intr.asm"
+Source="qmath.c"
 Source="sine_intr.c"
+Source="wt.c"
 Source="..\support\C6416dsk.cmd"
 
 ["Compiler" Settings: "Debug"]

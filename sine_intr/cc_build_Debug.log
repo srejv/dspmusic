@@ -1,0 +1,11 @@
+---------------------------  sine_intr.pjt - Debug  ---------------------------
+[sine_intr.c] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -g -fr"C:/CCStudio_v3.1/MyProjects/sine_intr/Debug" -i"c:/CCStudio_v3.1/C6000/dsk6416/include" -d"CHIP_6416" -mv6400 --mem_model:data=far -@"Debug.lkf" "sine_intr.c"
+
+[Linking...] "C:\CCStudio_v3.1\C6000\cgtools\bin\cl6x" -@"Debug.lkf"
+<Linking>
+>> warning: creating .sysmem section with default size of 400 (hex) words.
+  
+            Use -heap option to change the default size.
+
+Build Complete,
+  0 Errors, 1 Warnings, 0 Remarks.
