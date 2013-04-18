@@ -109,6 +109,9 @@ typedef long fixedp;
 #define _Q1OLN_10 0.43429448190325182765
 #define Q1OLN_10 double2q(_Q1OLN_10)
 
+#define _Q1      1
+#define Q1 		 short2q(_Q1)
+
 
 // Both operands in addition and subtraction must have the same fracbits.
 // If you need to add or subtract fixed point numbers with different

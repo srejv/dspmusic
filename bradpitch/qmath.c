@@ -182,6 +182,9 @@ fixedp qsin(fixedp theta)
                 xresult = sinx(x);
         else
                 xresult = sinx(QPIO2-(x-QPIO2));
+		
+		if ( xresult > Q1 ) x = Q1;
+		if ( xresult < -Q1) x = -Q1;
 
         if ( bBottom )
                 return -xresult;
