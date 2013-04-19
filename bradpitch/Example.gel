@@ -1,0 +1,10 @@
+slider param_definition( minVal, maxVal, increment, pageIncrement, paramName) 
+{
+	statements
+}
+
+menuItem "Sine Gain"
+
+slider Gain(0, 30, 4, 1, gain_parameter) {
+	gain = gain_parameter;
+}

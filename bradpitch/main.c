@@ -41,7 +41,8 @@ enum {
 		FLANGER, VIBRATO, CHORUS, 
 		REVERB, FFTPITCH, OVERDRIVE, 
 		FUZZ, DEATHMETALHEAD, BARBERSHOP, 
-		COMPRESSOR, GATE, LIMITER, EXPANDER
+		COMPRESSOR, GATE, LIMITER, EXPANDER,
+		AUTOWAH
 	};
 unsigned int fx; 
 
@@ -57,16 +58,49 @@ void process_bypass() {
 	return;
 }
 
+typedef struct DelayParams_t {
+	Uint32 wp;	// write pointer
+	fixedp rp;  // read pointer
+	fixedp inc; // increment
+
+	fixedp fb;	// feedback
+	Uint32 delayInSamples;
+	
+	fixedp externalFb;
+	unsigned char useExternalFeedback;
+
+	Uint32 bufferSize;
+	fixedp *buffer;
+} DelayParams;
+DelayParams delayP;
+
+void setupDelayParams(DelayParams *this, fixedp *buffer, Uint32 bufferSize) {
+	this->wp = 0;
+	this->rp = 0;
+	this->inc = 1;
+	this->fb = 0;
+	this->delayInSamples = 0;
+	this->buffer = buffer;
+	this->bufferSize = bufferSize;
+}
+
 // Utför en delay. Just nu fixed på 8000 samples (1s, 8khz samplerate)
 void process_delay() {
 	int i;
 	fixedp out;
+	Uint32 rpi; // integer part
+	fixedp frac; // fractional part
+	fixedp next; // next value in case of wrapping
+
 	for(i = 0; i < N; i++) {
-		out = delay[delayp];
-		delay[delayp] = process[i];
+		
+		out = delayP.buffer[delayP.rp];
+		delayP.buffer[delayP.wp] = process[i] + delayP.fb*out;
+
 		process[i] = out;
 		
-		if(++delayp >= 8000) { delayp = 0; }
+		delayP.wp++;
+		if(delayP.wp >= delayP.delayInSamples) { delayP.wp = 0; }
 	}
 	return;
 }
@@ -86,12 +120,12 @@ typedef struct ModDelayParams_t {
 	// Stuff with ranges [0,1]
 	fixedp dry, wet, fb; // BL, FF,FB
 	// Struff in ms [0,2000], convert to samples
-	unsigned short predelay, depth, modhz; 
+	unsigned int predelay, depth, modhz; 
 } ModDelayParams;
 ModDelayParams MDP;
 
 void setFlangerSettings(ModDelayParams *this, fixedp depth, fixedp modhz) {
-	this->depth = float2q(0.003f) * SR;
+	this->depth = 3/1000 * SR;
 	this->dry = float2q(0.70795f);
 	this->wet = float2q(0.70795f);
 	this->fb = float2q(0.70795f);
@@ -118,7 +152,7 @@ void setVibratoSettings(ModDelayParams *this, fixedp depth, fixedp modhz) {
 
 void process_vibrato() {
 	int i;
-	fixedp in, out, ind; 
+	fixedp out; 
 	
 	fixedp frac, next;
 	int rpi;
@@ -243,6 +277,9 @@ void process_isr(void)
 	case PITCH:
 		process_pitchshift();
 		break;
+	case VIBRATO:
+		process_vibrato();
+		break;
 	default:
 		process_bypass();
 	}
@@ -296,7 +333,7 @@ void main()
 	//memset(pitchC.pbuf, 0, sizeof(fixedp)*PSHIFT_BUFSIZE);
 
 	// se tup switch
-	fx = PITCH;
+	fx = DELAY;
 
 	// Initialize interrupts
 	comm_intr();
