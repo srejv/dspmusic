@@ -109,8 +109,18 @@ typedef long fixedp;
 #define _Q1OLN_10 0.43429448190325182765
 #define Q1OLN_10 double2q(_Q1OLN_10)
 
-#define _Q1      1
-#define Q1 		 short2q(_Q1)
+#define _Q1      1.0
+#define Q1 		 double2q(_Q1)
+#define _Q0_5	 0.5
+#define Q0_5	 double2q(_Q0_5)
+#define _Q10	 10.0
+#define Q10		 double2q(_Q10)
+#define _Q20	 20.0
+#define Q1_20	 qinv(double2q(_Q20));
+#define	_Q12	 12.0
+#define Q1_12 	 qinv(double2q(_Q12))
+#define _Q2		 2.0
+#define Q2	 	 double2q(_Q2)
 
 
 // Both operands in addition and subtraction must have the same fracbits.

@@ -9,9 +9,9 @@
 #define WT_H_
 
 #include "qmath.h"
-
+#include "definebrad.h"
 #define WT_SIZE 1024
-#define SAMPLE_RATE 8000;
+//#define SAMPLE_RATE 8000;
 
 extern fixedp SinTable[];
 
@@ -56,5 +56,9 @@ inline fixedp dLinTerp(fixedp x1, fixedp x2, fixedp y1, fixedp y2, fixedp x)
 
 	return result;
 }
+
+/*inline fixedp lagrage() {
+
+}*/
 
 #endif

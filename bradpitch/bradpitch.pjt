@@ -13,6 +13,10 @@ Config="Release"
 
 [Source Files]
 Source="..\support\c6416dskinit.c"
+Source="brad_delay.c"
+Source="brad_envelopedetector.c"
+Source="brad_moddelay.c"
+Source="brad_pitch_instrumental.c"
 Source="bradpitch6416.cdb"
 Source="main.c"
 Source="qmath.c"
