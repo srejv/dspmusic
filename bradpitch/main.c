@@ -4,7 +4,7 @@
 Uint32 fs = DSK6416_AIC23_FREQ_48KHZ;
 #define DSK6416_AIC23_INPUT_MIC 0x0015
 #define DSK6416_AIC23_INPUT_LINE 0x0011
-Uint16 inputsource = DSK6416_AIC23_INPUT_MIC;
+Uint16 inputsource = DSK6416_AIC23_INPUT_LINE;
 
 // HPI header
 //#include <csl_hpi.h>
@@ -45,6 +45,12 @@ PShift pitchC;
 #include "brad_moddelay.h"
 ModDelayParams modDelayParams;
 
+#include "brad_dynamics.h"
+DynProc dynProc;
+
+#include "brad_envelopedetector.h"
+EnvelopeDetector envDetect;
+
 
 // Våra coola effekter. :) Tusen.  
 enum { 
@@ -73,9 +79,10 @@ void process_bypass() {
 // Tremolo - Ändrar amplituden mellan [0,1].
 void process_tremolo() {
 	int i;
+	fixedp y, yq;
 	for(i = 0; i < PROCESS_SIZE; i++) {
-		WaveTable_doOscillate(&LFO, &oscVal);
-		result = (short)qmul(process[i],oscVal);
+		WaveTable_doOscillate(&LFO, &y, &yq);
+		result = (short)qmul(process[i],y);
 		process[i] = result;
 	}
 	return;
@@ -85,8 +92,8 @@ void process_tremolo() {
 void process_HARDCLIP(fixedp *pInput) {
 	int i;
 	for(i = 0; i < PROCESS_SIZE; i++) {
-		if(pInput[i] >= 32767) pInput[i] = 32767;
-		else if(pInput[i] <= -32767) pInput[i] = -32757;
+		if(pInput[i] >= AUDIOMAX) pInput[i] = AUDIOMAX;
+		else if(pInput[i] <= AUDIOMIN) pInput[i] = AUDIOMIN;
 	}
 }
 
@@ -96,6 +103,7 @@ void c_int11(void)
 {
 	input[bufferindex] = (fixedp)input_left_sample();	
 	output_left_sample(output[bufferindex]);
+	//output_right_sample(output[bufferindex]);
 	if(++bufferindex >= PROCESS_SIZE) {
 		bufferindex = 0;
 		bufferflag = 1;
@@ -129,10 +137,14 @@ void process_isr(void)
 		process_pitchshift(&pitchC, &process[0]);
 		break;
 	case VIBRATO:
-		process_vibrato();
+		//process_vibrato();
 		break;
 	case FLANGER:
 		process_ModDelay(&modDelayParams, &process[0]);
+		break;
+	case COMPRESSOR:
+		process_dynamics(&dynProc, &process[0], PROCESS_SIZE);
+		break;
 	default:
 		process_bypass();
 	}
@@ -179,10 +191,26 @@ void main()
 	//memset(delay, 0, sizeof(fixedp)*48000);	
 
 	// Mod delay
-	setFlangerSettings(&modDelayParams, float2q(0.5f), float2q(0.8f), float2q(0.5f));
+//	setFlangerSettings(&modDelayParams, float2q(2.0f), float2q(0.8f), 0);
+//	setVibratoSettings(&modDelayParams, float2q(0.7f), float2q(0.9f));
+	setChorusSettings(&modDelayParams, float2q(0.6f), float2q(0.4f), 0, float2q(0.010));
+	
+	envDetect.attack_in_ms = 50;
+	envDetect.release_in_ms = 300;
+	EnvDetector_setupDetector(&envDetect);
 
+	dynProc.AttackTime = 50;
+	dynProc.DetectorGain = float2q(2.0f);
+	dynProc.KneeWidth = float2q(2.0f);
+	dynProc.OutputGain = short2q(1);
+	dynProc.procType = Comp;
+	dynProc.Ratio = 3;
+	dynProc.ReleaseTime = 200;
+	dynProc.Threshold = float2q(-20.0f);
+	dynProc.timeType = DIGITAL;
+	dynProc.detector = &envDetect;
 	// setup switch
-	fx = DELAY;
+	fx = COMPRESSOR;
 
 	// Initialize interrupts
 	comm_intr();

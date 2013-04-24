@@ -5,6 +5,9 @@
 #define SAMPLE_RATE 48000
 #define PROCESS_SIZE 256
 
+#define AUDIOMAX 32767
+#define AUDIOMIN -32767
+
 /* Memory Area Defintions */
 
 /* Tremolo */

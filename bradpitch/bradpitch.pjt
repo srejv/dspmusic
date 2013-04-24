@@ -14,6 +14,8 @@ Config="Release"
 [Source Files]
 Source="..\support\c6416dskinit.c"
 Source="brad_delay.c"
+Source="brad_dynamics.c"
+Source="brad_dynamics.h"
 Source="brad_envelopedetector.c"
 Source="brad_moddelay.c"
 Source="brad_pitch_instrumental.c"
@@ -38,6 +40,12 @@ Options=-c -heap0x1000 -m".\Debug\bradpitch.map" -o".\Debug\bradpitch.out" -w -x
 
 ["Linker" Settings: "Release"]
 Options=-c -m".\Release\bradpitch.map" -o".\Release\bradpitch.out" -w -x
+
+["brad_dynamics.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["brad_dynamics.h" Settings: "Release"]
+ExcludeFromBuild=true
 
 ["bradpitch6416cfg.cmd" Settings: "Debug"]
 LinkOrder=1

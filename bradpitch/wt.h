@@ -22,6 +22,7 @@ extern fixedp TriangleTable[];
 
 typedef struct WaveTable_t {
 	fixedp readPointer;
+	fixedp quadPhaseReadIndex;
 	fixedp mInc;
 	unsigned char invert;
 	unsigned char unipolar;
@@ -29,7 +30,7 @@ typedef struct WaveTable_t {
 } WaveTable;
 
 // pYn = output sample
-void WaveTable_doOscillate(WaveTable *this, fixedp *pYn);
+void WaveTable_doOscillate(WaveTable *this, fixedp *pYn, fixedp *pYqn);
 
 // generates the Sin, Square, Sawtooth and Triangle tables
 void WaveTable_generateTables();

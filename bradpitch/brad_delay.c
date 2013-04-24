@@ -64,8 +64,16 @@ void process_delay(DelayParams *this, fixedp *process, Uint32 processSize) {
 
 		// Increase write pointer and wrap around
 		this->wp += 1;
-		if(this->wp >= this->delayInSamples) this->wp = 0;
+		if(this->wp >= this->bufferSize) this->wp = 0;
 	}
 	return;
 }
 
+void setDelay(DelayParams *this, int delayInSamples) {
+	// subtract to make read index
+	this->rp = int2q(this->wp - delayInSamples); // cast as int!
+
+	// check and wrap BACKWARDS if the index is negative
+	if( this->rp < 0 )
+		this->rp += int2q(this->bufferSize);
+}

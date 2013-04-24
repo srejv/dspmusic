@@ -116,7 +116,7 @@ typedef long fixedp;
 #define _Q10	 10.0
 #define Q10		 double2q(_Q10)
 #define _Q20	 20.0
-#define Q1_20	 qinv(double2q(_Q20));
+#define Q1_20	 qinv(double2q(_Q20))
 #define	_Q12	 12.0
 #define Q1_12 	 qinv(double2q(_Q12))
 #define _Q2		 2.0

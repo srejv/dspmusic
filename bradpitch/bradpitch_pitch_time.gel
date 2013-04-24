@@ -1,0 +1,23 @@
+
+
+menuitem "Brad Pitch Shift"
+
+/*  */
+slider Step(-24, 24, 1, 6, halfsteps) {
+	// inc = 2^(halfsteps/12) 
+}
+
+/* feedback -100%, 100%  */
+slider Feedback(-1000, 1000, 1, 10, feedback_param ) {
+	
+}
+
+/* Gain in dB? */ 
+slider GaindB(-96, 0, 1, 2, gain_param) {
+	
+}
+
+/* Wet/Dry ratio osv */ 
+slider Mix(0, 1000, 1, 10) {
+	
+}

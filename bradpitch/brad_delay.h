@@ -25,4 +25,5 @@ typedef struct DelayParams_t {
 } DelayParams;
 
 void setupDelayParams(DelayParams *this, fixedp *buffer, Uint32 bufferSize);
+void setDelay(DelayParams *this, int delayInSamples);
 void process_delay(DelayParams *this, fixedp *process, Uint32 processSize);

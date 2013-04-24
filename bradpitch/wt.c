@@ -14,39 +14,53 @@ fixedp oneOverSR;
 fixedp qN;
 
 
-void WaveTable_doOscillate(WaveTable *this, fixedp *pYn) {
+void WaveTable_doOscillate(WaveTable *this, fixedp *pYn, fixedp *pYqn) {
+	
 	fixedp outSample = 0;
+	fixedp quadOutSample = 0;
 
 	// get int part
 	int readIndex = qipart(this->readPointer);
+	int quadPhaseReadIndex = qipart(this->quadPhaseReadIndex);
 
 	// get frac part
 	fixedp frac = qfpart(this->readPointer);
 
 	// check for next, might wrap around
 	int readNextIndex = readIndex + 1 > WT_SIZE - 1 ? 0 : readIndex + 1;
+	int quadReadNextIndex = quadPhaseReadIndex + 1 > WT_SIZE - 1 ? 0 : quadPhaseReadIndex + 1;
 
 	//printf("This: %ld, Next: %ld, Frac: %ld \n", this->table[readIndex], this->table[readNextIndex], frac);
-	outSample = dLinTerp(0, short2q(1), this->table[readIndex], this->table[readNextIndex], frac);
-
+	outSample = dLinTerp(0, Q1, this->table[readIndex], this->table[readNextIndex], frac);
+	quadOutSample = dLinTerp(0, Q1, this->table[quadPhaseReadIndex], this->table[quadReadNextIndex], frac);
 	// add increment
 	this->readPointer = qadd(this->readPointer, this->mInc);
+	this->quadPhaseReadIndex = qadd(this->quadPhaseReadIndex, this->mInc);
 
 	// check for wrap around
 	if(this->readPointer >= qN) {
 		this->readPointer = qsub(this->readPointer, qN);
 	}
 
+	if(this->quadPhaseReadIndex >= qN) {
+		this->quadPhaseReadIndex = qsub(this->quadPhaseReadIndex, qN);
+	}
+
 	// output
 	*pYn = outSample;
+	*pYqn = quadOutSample;
 
 	if(this->invert) {
-		*pYn *= short2q(-1);
+		*pYn *= -1;
+		*pYqn *= -1;
 	}
 
 	if(this->unipolar) {
 		*pYn = qmul(*pYn, pointfive);
 		*pYn = qadd(*pYn, pointfive);
+
+		*pYqn = qmul(*pYqn, pointfive);
+		*pYqn = qadd(*pYqn, pointfive);
 	}
 }
 

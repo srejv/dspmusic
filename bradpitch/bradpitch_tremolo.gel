@@ -1,0 +1,6 @@
+
+
+menuitem "Brad Pitch Tremolo"
+
+slider Frequency();
+slider Depth();

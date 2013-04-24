@@ -1,39 +1,39 @@
 
-menuItem "Brad Pitch"
+menuItem "Brad Pitch Delay"
 
 /* 
 	Tid i millisekunder (måste konverteras till samples, baserat på SAMPLE_RATE)
 	Ni vet hur det är. 
 */
-slider DelayTime(0, 2000, 100, 20, delay_in_msec) {
+slider Time(0, 2000, 100, 20, delay_in_msec) {
 	
 }
 
 /* 
 	Hur mycket feedback det är. 
 */ 
-slider DelayFeedback(0, 1000, 10, 2, feedback_in_pct) {
+slider Feedback(0, 1000, 10, 2, feedback_in_pct) {
 
 }
 
 /*
 	Mix, wet/dry signal. Mix = Wet. Mix/unmixed. Tror jag.
 */
-slider DelayMix(0, 1000, 10, 2, mix_in_pct ) {
-
+slider Mix(0, 1000, 10, 2, mix_in_pct ) {
+	
 }
 
 /*
 	Ifall man använder en extern feedback (vad det nu må vara)...
 	Kanske borde vara internt? :(
 */
-slider DelayUseExternalFeedback(0, 1, 1, 1, use_external_fb) {
+slider UseExternalFeedback(0, 1, 1, 1, use_external_fb) {
 	
 }
 
 /*
 	Vilken typ av delay? :\ :/ vsmg?
 */
-slider DelayType() {
-
+slider Type(0, 0, 0, 0, delay_type) {
+	
 }
