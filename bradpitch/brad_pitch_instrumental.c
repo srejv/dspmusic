@@ -56,7 +56,7 @@ void PShift_setupPitchParams(PShift *this) {
 	short i;
 	fixedp stepratio;
 	fixedp twooverbufsize = 2 * qinv(short2q(PSHIFT_BUFSIZE));
-	stepratio = Q1_12
+	stepratio = Q1_12;
 
 	// Setup pitch shift
 	this->rp1 = 0;

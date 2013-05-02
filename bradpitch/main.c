@@ -27,6 +27,7 @@ extern far SWI_Obj SWI_process_isr;
 fixedp *input;
 fixedp *output;
 fixedp *process;
+fixedp *processOut;
 fixedp *tmp;
 
 Uint32 bufferindex;
@@ -51,6 +52,9 @@ DynProc dynProc;
 #include "brad_envelopedetector.h"
 EnvelopeDetector envDetect;
 
+#include "brad_3bandeq.h"
+EQSTATE eq;
+
 
 // Våra coola effekter. :) Tusen.  
 enum { 
@@ -63,6 +67,110 @@ enum {
 	};
 unsigned int fx; 
 
+
+
+typedef struct Distortion_t {
+	fixedp gain;
+	fixedp fdb;
+	fixedp lvl1;
+	fixedp lvl2;
+	
+	fixedp prev;
+} Distortion;
+
+void process_fuzz(Distortion *t, fixedp *x) { 
+	Uint32 n;
+	
+	if(t->fdb != 0) {
+	
+		for(n = 0; n < PROCESS_SIZE; n++) {
+			t->prev = qadd(qmul(x[n], t->gain), qmul(t->prev, t->fdb));
+
+			if (t->prev > t->lvl1)
+				t->prev = t->lvl1;
+			else if (t->prev < -t->lvl2)
+				t->prev = -t->lvl2;
+
+			x[n] = t->prev;
+		}
+
+	}
+	else {
+		for(n = 0; n < PROCESS_SIZE; n++) {
+			t->prev = qmul(x[n], t->gain);
+
+			if (t->prev > t->lvl1)
+				t->prev = t->lvl1;
+			else if (t->prev < -t->lvl2)
+				t->prev = -t->lvl2;
+
+			x[n] = t->prev;
+		}
+	}
+
+}
+
+void process_thunderFuzz( Distortion *t, fixedp *x ) {
+	Uint32 n;
+	
+	// remember to keep sample from previous cycle. :) keep in structure. disttruc
+	if(t->fdb) {
+		for(n=0; n < PROCESS_SIZE; n++) {
+			t->prev = qadd(qmul(x[n],t->gain), qmul(t->prev, t->fdb));
+		
+			if (t->prev > t->lvl1) 
+				t->prev = t->lvl1;
+			else if (t->prev < -t->lvl2)
+				t->prev = -t->lvl2;
+
+			x[n] = qabs(t->prev);
+		}
+	}
+	else {
+		for(n=0; n < PROCESS_SIZE; n++) {
+			t->prev = qmul(x[n],t->gain);
+
+			if (t->prev > t->lvl1) 
+				t->prev = t->lvl1;
+			else if (t->prev < -t->lvl2)
+				t->prev = -t->lvl2;
+			
+
+			x[n] = qabs(t->prev);
+		}
+	}
+}
+
+void process_overdrive(Distortion *t, fixedp *x) {
+	
+	Uint32 n;
+	fixedp numeratorLvl1, numeratorLvl2, denom;
+
+	// kom ihåg förra processens sampel?
+	if(t->fdb) {
+		for(n = 0; n < PROCESS_SIZE; n++) {
+			t->prev = qadd( qmul( x[n],t->gain ), qmul( qmul(t->prev, t->gain), t->fdb ) );
+			
+			// 6554 = 0.2
+			numeratorLvl1 = qmul(t->lvl1, qexp(qmul(t->prev, qadd(Q1, qmul(6554, qsub(Q1, t->lvl1))))));
+			numeratorLvl2 = qmul(t->lvl2, qexp(qmul(t->prev, qadd(Q1, qmul(6554, qsub(Q1, t->lvl2))))));
+			denom = qadd(qexp(t->prev), qexp(-t->prev));
+			x[n] = qmul(qsub(numeratorLvl1, numeratorLvl2), qinv(denom));
+		}
+	} 
+	else {
+		for(n = 0; n < PROCESS_SIZE; n++) {
+			t->prev = qmul(x[n],t->gain);
+			
+			numeratorLvl1 = qmul(t->lvl1, qexp(qmul(t->prev, qadd(Q1, qmul(6554, qsub(Q1, t->lvl1))))));
+			numeratorLvl2 = qmul(t->lvl2, qexp(qmul(t->prev, qadd(Q1, qmul(6554, qsub(Q1, t->lvl2))))));
+			denom = qadd(qexp(t->prev), qexp(-t->prev));
+			x[n] = qmul(qsub(numeratorLvl1, numeratorLvl2), qinv(denom));
+		}
+	}
+
+	// 
+}
 
 // Wavetable
 WaveTable LFO;
@@ -113,6 +221,13 @@ void c_int11(void)
 	return;
 }
 
+void process_eq() {
+	Uint32 n;
+	for(n = 0; n < PROCESS_SIZE; n++) {
+		process[n] = do_3band(&eq, process[n]);
+	}
+}
+
 // Processval för ljudsignalen, skiftar vår 3-buffer. 
 void process_isr(void) 
 {
@@ -122,10 +237,10 @@ void process_isr(void)
 	process = input;
 	input = tmp;
 	
-
+	process_eq();
 	// DO PROCESSING
 	/*pGain = (fixedp)(*(unsigned volatile int *)GAINADRESS);*/
-	
+	/*
 	switch(fx) {
 	case TREMOLO:
 		process_tremolo();
@@ -147,7 +262,7 @@ void process_isr(void)
 		break;
 	default:
 		process_bypass();
-	}
+	}*/
 
 	//process_HARDCLIP(&process[0]);
 	return;
@@ -209,6 +324,14 @@ void main()
 	dynProc.Threshold = float2q(-20.0f);
 	dynProc.timeType = DIGITAL;
 	dynProc.detector = &envDetect;
+
+	// EQ
+	init_3band_state(&eq,880,5000,48000);
+	
+	eq.hg = float2q(1.5);
+	eq.mg = Q1;
+	eq.lg = float2q(0.5);
+
 	// setup switch
 	fx = COMPRESSOR;
 

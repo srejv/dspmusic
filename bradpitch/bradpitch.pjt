@@ -13,15 +13,20 @@ Config="Release"
 
 [Source Files]
 Source="..\support\c6416dskinit.c"
+Source="biquad.c"
+Source="brad_3bandeq.c"
 Source="brad_delay.c"
 Source="brad_dynamics.c"
 Source="brad_dynamics.h"
 Source="brad_envelopedetector.c"
 Source="brad_moddelay.c"
+Source="brad_phasevoc.c"
 Source="brad_pitch_instrumental.c"
+Source="brad_shelving.c"
 Source="bradpitch6416.cdb"
 Source="main.c"
 Source="qmath.c"
+Source="twiddle.coef"
 Source="wt.c"
 
 [Generated Files]
@@ -30,13 +35,13 @@ Source="bradpitch6416cfg.s62"
 Source="bradpitch6416cfg_c.c"
 
 ["Compiler" Settings: "Debug"]
-Options=-g -fr"$(Proj_dir)\Debug" -i"c:\CCStudio_v3.1\C6000\dsk6416\include" -d"CHIP_6416" -mv6400 --mem_model:data=far
+Options=-g -fr"$(Proj_dir)\Debug" -i"C:\CCStudio_v3.1\C6000\dsk6416\include" -i"C:\CCStudio_v3.1\c6400\dsplib\include" -d"CHIP_6416" -mv6400 --mem_model:data=far
 
 ["Compiler" Settings: "Release"]
 Options=-o3 -fr"$(Proj_dir)\Release" -mv6400
 
 ["Linker" Settings: "Debug"]
-Options=-c -heap0x1000 -m".\Debug\bradpitch.map" -o".\Debug\bradpitch.out" -w -x -i"c:\CCStudio_v3.1\C6000\dsk6416\lib" -l"dsk6416bsl.lib"
+Options=-c -heap0x1000 -m".\Debug\bradpitch.map" -o".\Debug\bradpitch.out" -w -x -i"c:\CCStudio_v3.1\C6000\dsk6416\lib" -i"C:\CCStudio_v3.1\c6400\dsplib\lib" -l"dsk6416bsl.lib"
 
 ["Linker" Settings: "Release"]
 Options=-c -m".\Release\bradpitch.map" -o".\Release\bradpitch.out" -w -x
@@ -45,6 +50,12 @@ Options=-c -m".\Release\bradpitch.map" -o".\Release\bradpitch.out" -w -x
 ExcludeFromBuild=true
 
 ["brad_dynamics.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["twiddle.coef" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["twiddle.coef" Settings: "Release"]
 ExcludeFromBuild=true
 
 ["bradpitch6416cfg.cmd" Settings: "Debug"]

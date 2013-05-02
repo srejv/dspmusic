@@ -1,12 +1,18 @@
 
+
 #ifndef DEFINE_BRAD_H_
 #define DEFINE_BRAD_H_
+
+#include "qmath.h"
 
 #define SAMPLE_RATE 48000
 #define PROCESS_SIZE 256
 
 #define AUDIOMAX 32767
 #define AUDIOMIN -32767
+
+#define _Q0_2	0.2
+#define Q0_2 	double2q(_Q0_2)
 
 /* Memory Area Defintions */
 

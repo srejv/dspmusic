@@ -116,11 +116,14 @@ typedef long fixedp;
 #define _Q10	 10.0
 #define Q10		 double2q(_Q10)
 #define _Q20	 20.0
-#define Q1_20	 qinv(double2q(_Q20))
 #define	_Q12	 12.0
-#define Q1_12 	 qinv(double2q(_Q12))
 #define _Q2		 2.0
 #define Q2	 	 double2q(_Q2)
+#define _Q4		 4.0
+#define Q4		 double2q(_Q4)
+
+
+
 
 
 // Both operands in addition and subtraction must have the same fracbits.
@@ -181,7 +184,7 @@ static INLINE fixedp q2q(fixedp x, int xFb, int yFb)
 /**
  * Invert a number with default fracbits.
  */
-#define qinv(x) _qinv(x, FIXED_FRACBITS, FIXED_FRACBITS);
+#define qinv(x) _qinv(x, FIXED_FRACBITS, FIXED_FRACBITS)
 
 /**
  * Modulus. Modulus is only defined for two numbers of the same fracbits
@@ -219,6 +222,9 @@ static INLINE fixedp _qceil(fixedp x, int fb)
  */
 #define qceil(x) _qceil(x, FIXED_FRACBITS)
 
+#define Q1_20	 qinv(double2q(_Q20))
+#define Q1_12 	 qinv(double2q(_Q12))
+#define QINV_SAMPLERATE qinv(48000)
 
 /**
  * square root for default fracbits
