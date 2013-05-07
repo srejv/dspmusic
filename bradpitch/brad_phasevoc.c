@@ -1,153 +1,161 @@
 
 #include "qmath.h"
-#include "tistdtypes.h"
+#include <tistdtypes.h>
 #include "definebrad.h"
 #include <dsp_fft.h>
 #include <dsp_fft32x32.h>
 #include "twiddle.coef"
 
-//#define FRAME_SIZE		2048
-//#define SEGMENT_SIZE 	512
-// Storleken (antal mätpunkter) på de segment vi delar upp signalen i.
-#define FRAME_SIZE 1024
-//  Anger överlappning av segment.
-#define SEGMENT_OVERLAP 4
-#define SEGMENTS 8 // calculated by hand. sorry lol
-//  Storleken på mellanrummet mellan varje segment.
-#define HOP_SIZE FRAME_SIZE/SEGMENT_OVERLAP
+#include "brad_phasevoc.h"
 
-#define toneShift (0x80001000) 
-
-#define PSHIFT_TONE(x) qpow(Q2, qmul(x, Q1_12  ))
-#define PSHIFT_CENT(x) qpow(Q2, qmul(x, Q1_1200))
-#define round(x) (qfpart(x) < Q0_5 ? qipart(x) : (qipart(x) + Q1))
-
-#include "hann.coef"
-
-// % Storlek på buffer
-#define BUFFER_SIZE		2048
-#define QIFRAME_SIZE	qinv(int2q(FRAME_SIZE))
-#define QIHOP_SIZE		qinv(int2q(HOP_SIZE))
-
-#define REMOVE_PHASE_DIFFERENCE(dPhi, n) (qsub(dPhi, qmul(qmul(HOP_SIZE, Q2PI), qmul( qmul(n, Q0_5), QIFRAME_SIZE)))
-#define PHASE_MOD(phi)  	(((phi + QPI) % Q2PI) - QPI)
-#define TRUE_FREQ(n, phi)	 (qadd(qmul(Q2PI, _qmul(n, QIFRAME_SIZE, 0, FIXED_FRACBITS, FIXED_FRACBITS)), qmul(dpmPhi,QIHOP_SIZE)))))
-
-#define QSQUARE (x) qmul(x,x)
-
-typedef struct COMPLEX_T {
-	Int32 real;
-	Int32 imag;
-} COMPLEX;
-
-#define COMPLEX_1i ((COMPLEX){ .real = 0, .imag = 1 })
-#define COMPLEX_minus1i ((COMPLEX){ .real = 0, .imag = -1})
-
-/* based on:
- Streamlining digital signal processing: a tricks of the trade guidebook
- av Lyons, Richard G
- 2012, 2nd ed., ISBN 1118316940
- eq. 27-12, 
-
- arctan(x) almost= (pi/4)*x - x*(abs(x) - 1)*(0.2447 + 0.0663*abs(x))
-*/
-#define ATANCOEF1 double2q(0.2447)
-#define ATANCOEF2 double2q(0.0663);
-fixedp qFastArcTan(fixedp x)
-{
-    return qsub(qmul(QPIO4, x), qmul(x, qmul(qsub(qabs(x), Q1), (qadd(ATANCOEF1, qmul(ATANCOEF2,qabs(x)))))));
-}
+void process_Segment(PhaseVocoder *t, COMPLEX *frame);
 
 
-fixedp qatan2(fixedp y, fixedp x) {
+void phaseVocoder_setup(PhaseVocoder *t, int toneShift) {
+	
 	fixedp tmp;
-	if(x == 0) {
-		
-		if(y == 0) { return 0; }
-		if(y > 0) { return QPIO2; }
 
-		// y < 0
-		return -QPIO2;
-	}
-
-	if(x > 0) {
-		tmp = qinv(x);
-		return qFastArcTan(qmul(y,tmp));
-	}
-
-	// x < 0
-	tmp = qinv(x);
-	tmp = qFastArcTan(qmul(y,tmp));
-	// tmp now contains atan(y/x)
-	if(y < 0) return tmp - QPI;
-	return tmp + QPI;
-}
-
-typedef struct PhaseVocoder_t {
-	Uint32 hopSizeOut;
-	Uint32 pShift;
-
-	fixedp rp;
-	Uint32 wp;
-} PhaseVocoder;
-
-void setup_phasevocoder(PhaseVocoder *t, fixedp toneShift);
-
-void setup_phasevocoder(PhaseVocoder *t, fixedp toneShift) {
+	tmp = PSHIFT_TONE(int2q(toneShift));
 
 	//% Storleken på mellanrummet mellan varje segment hos utsignalen.
-	t->hopSizeOut = _qmul(PSHIFT_TONE(toneShift), HOP_SIZE, FIXED_FRACBITS, 0, 0));
+	t->hopSizeOut = _qmul(tmp, HOP_SIZE, FIXED_FRACBITS, 0, 0);
 	//% Korrigerar för avrundning i hopSizeOut. what?
-	t->pShift = hopSizeOut / HOP_SIZE;
+	t->pShift = qdiv(int2q(t->hopSizeOut), int2q(HOP_SIZE));
+	t->hopOutIndex = 0;
+	t->rp = 0;
+	t->wp = 0;
+
+	return;
 }
 
-static fixedp INPUT_BUFFER_N[BUFFER_SIZE];
+
+static fixedp INPUT_BUFFER_N[1024];
 static fixedp OUTPUT_BUFFER_N[BUFFER_SIZE];
 
-void process_readPitchBuffer() {
-	// Läs från buffern
 
-	// input buffern är full, 
-	// gör fftmojäng
+Uint32 wp;
+Uint32 rp;
 
+Uint32 segmentIndex;
+
+//.align 1024
+COMPLEX frank[FRAME_SIZE];
+
+Int32 pPhi[FRAME_SIZE];
+Int32 phiCulum[FRAME_SIZE];
+
+//.align 1024
+COMPLEX fftFrame[FRAME_SIZE];
+//.align 1024
+COMPLEX preOutputFrame[FRAME_SIZE];
+//.align 1024
+COMPLEX outputFrame[FRAME_SIZE];
+
+#pragma DATA_ALIGN (frank, 8); 
+#pragma DATA_ALIGN (fftFrame, 8); 
+#pragma DATA_ALIGN (preOutputFrame, 8);
+#pragma DATA_ALIGN (outputFrame, 8); 
+
+void phaseVocoder_initialize() {
+	memset(&pPhi, 0, sizeof(Uint32)*FRAME_SIZE);
+	memset(&phiCulum, 0, sizeof(Uint32)*FRAME_SIZE);	
+	memset(&fftFrame, 0, sizeof(COMPLEX)*FRAME_SIZE);	
+	memset(&preOutputFrame, 0, sizeof(COMPLEX)*FRAME_SIZE);	
+	memset(&outputFrame, 0, sizeof(COMPLEX)*FRAME_SIZE);	
+	memset(&frank, 0, sizeof(COMPLEX)*FRAME_SIZE);
+
+	memset(&INPUT_BUFFER_N, 0, sizeof(fixedp)*BUFFER_SIZE);
+	memset(&OUTPUT_BUFFER_N, 0, sizeof(fixedp)*BUFFER_SIZE);
+	return;
 }
 
-void process_PitchFreq(PhaseVocoder* t, fixedp *x, fixedp *y) {
-	fixedp R, angle, Phi, dPhi, dpPhi, dpmPhi;
-	fixedp trueFreq;
+void phaseVocoder_process(PhaseVocoder *t, fixedp *x) {
+	// Läs från buffern
+	Uint32 n, q;
+	Int32 rpi;
 	
-	Uint32 n, i;
-	Uint32 frameSize;
-	Uint32 segSize;
-	
-	COMPLEX segments[4][FRAME_SIZE]; // ?
-	COMPLEX fftFrame[FRAME_SIZE];
-	COMPLEX preOutputFrame[FRAME_SIZE];
-	Uint32 pPhi[FRAME_SIZE];
-	Uint32 phiCulum[FRAME_SIZE];
-	
-	// Dela upp i segment?
-	Uint32 rp = 0;
-	for(n=0; n < SEGMENTS; n++) {
-		for(i = 0; i < FRAME_SIZE; i++) {
-			segments[n][i].real = x[rp++] * HANN[i];
-			segments[n][i].imag = 0;
-		}
-		rp = rp - FRAME_SIZE + HOP_SIZE;
+	int start = segmentIndex * HOP_SIZE;
+	for(n=0; n < HOP_SIZE; n++) {
+		INPUT_BUFFER_N[start++] = x[n];
+		if(start >= 1024) start = 0;
 	}
 	
+	if(++segmentIndex >= 4) segmentIndex = 0;
+
+	start = segmentIndex * HOP_SIZE;
+	for(n=0; n < FRAME_SIZE; n++) {
+		frank[n].r = qmul(INPUT_BUFFER_N[start], HANN[n]);
+		frank[n].i = 0;
+		start += 1;
+		if(start >= 1024) start = 0;
+	}
 	
-	//dsp_fft32x32(w, N, input, output);
-	dsp_fft32x32(w, FRAME_SIZE, segments[0], fftFrame);
+	// input buffern är full, 
+	process_Segment(t, frank);
+	
+	/*for(n = 0; n < FRAME_SIZE; n++) {
+		q = t->hopOutIndex+n;
+		if( q > BUFFER_SIZE) {
+			q -= BUFFER_SIZE;
+		}
+
+		if ( n < FRAME_SIZE-(t->hopSizeOut)) {
+			OUTPUT_BUFFER_N[q] = qadd(OUTPUT_BUFFER_N[q], qmul(outputFrame[n].r, HANN[n]));
+		}
+		else {
+			OUTPUT_BUFFER_N[q] = qmul(outputFrame[n].r, HANN[n]);  //, 31, FIXED_FRACBITS, FIXED_FRACBITS);
+		}
+	}
+
+	t->hopOutIndex = t->hopOutIndex + t->hopSizeOut;
+	if (t->hopOutIndex >= BUFFER_SIZE) t->hopOutIndex -= BUFFER_SIZE;
+	
+	rpi = qipart(t->rp);
+	for(n=0;n<256;n++) {
+		
+		x[n] = OUTPUT_BUFFER_N[rpi];
+		
+		t->rp += t->pShift;
+		rpi = qipart(t->rp);
+		if(rpi >= 1024) { 
+			t->rp -= int2q(1024);
+		}
+	}*/
+	
+	start = segmentIndex * HOP_SIZE;
+	for(n=0; n < FRAME_SIZE; n++) {
+		x[n] = outputFrame[start].r;
+		start += 1;
+		if(start >= 1024) start = 0;
+	}
+
+	return;
+}
+
+
+
+
+	
+void process_Segment(PhaseVocoder *t, COMPLEX *frame) {
+	
+	fixedp R, Phi, dPhi, dpPhi, dpmPhi;
+	fixedp trueFreq;
+	
+	Uint32 n, i, q;	
+	memset(fftFrame, 0, sizeof(COMPLEX)*FRAME_SIZE);
+	memset(outputFrame, 0, sizeof(COMPLEX)*FRAME_SIZE);
+
+	DSP_fft32x32(w, FRAME_SIZE, &(frame[0].r), &(fftFrame[0].r));
+
 	
 	for(n=0; n < FRAME_SIZE; n++) {
 		// absolutbelopp och fasvinkel
-		R = qsqrt(qadd(QSQUARE(fftFrame[n].real), QSQUARE(fftFrame[n].imag)));
-		phi = qatan2(fftFrame[n].imag, fftFrame[n].real);
-
+		R = 0; // qsqrt(qadd(QSQUARE(fftFrame[n].r), QSQUARE(fftFrame[n].i)));
+		Phi = 0; // qatan2(fftFrame[n].i, fftFrame[n].r);
+		
 		// skillnad i nuvarande fas med förra
-		dPhi = phi - pPhi[n];
-		pPhi[n] = phi;
+		dPhi = Phi - pPhi[n];
+		pPhi[n] = Phi;
 		
 		// bort med fasskillnad
 		dpPhi = REMOVE_PHASE_DIFFERENCE(dPhi, n); // dPhi - HOP_SIZE*Q2PI*(n/2)/FRAME_SIZE
@@ -156,33 +164,25 @@ void process_PitchFreq(PhaseVocoder* t, fixedp *x, fixedp *y) {
 		trueFreq = TRUE_FREQ(n, dpmPhi);
 		
 		// sparas detta mellan frames?
-		phiCulm[n] += _qmul(t->hopSizeOut, trueFreq, 0, FIXED_FRACBITS, FIXED_FRACBITS);
+		phiCulum[n] += _qmul(t->hopSizeOut, trueFreq, 0, FIXED_FRACBITS, FIXED_FRACBITS);
 
-		preOutputFrame[n].real = qmul(R, qcos(phiCulm)); //R*exp(1i*phiCulm);
-		preOutputFrame[n].imag = qmul(R, qsin(phiCulm));
+		preOutputFrame[n].r = qmul(R, qcos(phiCulum[n])); //R*exp(1i*phiCulm);
+		preOutputFrame[n].i = qmul(R, qsin(phiCulum[n])); 
 	}
 
-	dsp_ifft32x32(w, FRAME_SIZE, preOutputFrame, outputFrame);
-
-
+	DSP_ifft32x32(w, FRAME_SIZE, &(preOutputFrame[0].r), &(frame[0].r));
 	for(n = 0; n < FRAME_SIZE; n++) {
-		q = hopOutIndex+n;
-		if( q > PROCESS_SIZE) {
-			q -= PROESS_SIZE;
-		}
-		if ( n < FRAME_SIZE-HOP_SIZE_OUT) {
-			outputBuffer[q] = outputBuffer[q] + _qmul(outputFrame[n], HANN[n], 31, FIXED_FRACBITS, FIXED_FRACBITS));
-		}
-		else {
-			outputBuffer[q] = (outputFrame[n] * HANN[n]);
-		}
+		outputFrame[n].r = frame[n].r >> 10;
+		outputFrame[n].i = frame[n].i;
 	}
 
-	t->hopOutIndex = hopOutIndex + hopSizeOut;
-	if (t->hopOutIndex > BUFFER_SIZE) {
-		t->hopOutIndex = t->hopOutIndex - BUFFER_SIZE;
-	}
+	return;
+}
 
+
+void process_PitchFreq(PhaseVocoder* t, fixedp *x, fixedp *y) {
+	
+	/*
 	rpi = round(rp);
 
 	if (readyToRead) {
@@ -190,6 +190,8 @@ void process_PitchFreq(PhaseVocoder* t, fixedp *x, fixedp *y) {
 	}
 
 	if (round(rp) > BUFFER_SIZE) {
-		rp = rp-buffersize;
-	}
+		rp = rp - BUFFER_SIZE;
+	}*/
+
+	return;
 }

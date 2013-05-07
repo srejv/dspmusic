@@ -37,7 +37,7 @@ fixedp qsqrt(fixedp p_Square)
 
         /* determine allowable error */
         maxError =  qmul(p_Square, FIXED_SQRT_ERR);
-
+		if(maxError == 0) maxError = 1;
         do
         {
                 delta =  (qmul( res, res ) - p_Square);

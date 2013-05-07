@@ -5,7 +5,7 @@
 ;; INPUT bradpitch6416.cdb
 
 ;; CONFIGURATION/VERSION INFORMATION
-	.asg "Wed Apr 17 19:32:51 2013", VERS$DATE
+	.asg "Sat May 04 15:32:44 2013", VERS$DATE
 
 ;; PROLOGUE
 	.include bradpitch6416cfg.h62
@@ -637,13 +637,13 @@ DIO$SETOF           .set 00H
 ;;
 ;; HWI_Obj HWI_INT6 (function, monitor, addr, dataType, operation, client, iUseDispatcher, iArg, IntrMask, iCCBitMask)
 	.global HWI_INT6
-	.asg HWI_unused, _function
+	.asg _c_inpinterrupt, _function
 	.asg "Nothing", _monitor
 	.asg 00H, _addr
 	.asg "signed", _dataType
 	.asg "STS_add(*addr)", _operation
 	.asg "USER", _client
-	.asg 00H, _iUseDispatcher
+	.asg 01H, _iUseDispatcher
 	.asg 00H, _iArg
 	.asg 040H, _IntrMask
 	.asg 01H, _iCCBitMask

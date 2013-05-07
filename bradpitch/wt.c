@@ -150,7 +150,6 @@ void WaveTable_generateTables() {
 
 void WaveTable_cookFrequency(WaveTable *this, fixedp frequency) {
 	this->mInc = qmul( short2q(WT_SIZE), qmul(frequency, oneOverSR));
-	printf("Inc: %ld \n", this->mInc);
 }
 
 void WaveTable_reset(WaveTable* this) {

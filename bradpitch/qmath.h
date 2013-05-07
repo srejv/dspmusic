@@ -45,6 +45,39 @@ extern "C" {
  */
 #define FIXED_FRACBITS 15
 
+#define IQ0		0
+#define IQ1		1
+#define IQ2		2
+#define IQ3		3
+#define IQ4		4
+#define IQ5		5
+#define IQ6		6
+#define IQ7		7
+#define IQ8		8		
+#define IQ9		9
+#define IQ10	10
+#define IQ11	11
+#define IQ12	12
+#define IQ13	13
+#define IQ14	14
+#define IQ15	15
+#define IQ16	16
+#define IQ17	17
+#define IQ18	18
+#define IQ19	19
+#define IQ20	20
+#define IQ21	21
+#define IQ22	22
+#define IQ23	23
+#define IQ24	24
+#define IQ25	25
+#define IQ26	26
+#define IQ27	27
+#define IQ28	28
+#define IQ29	29
+#define IQ30	30
+#define IQ31	31
+
 #define FIXED_RESOLUTION (1 << FIXED_FRACBITS)
 #define FIXED_INT_MASK (0xffffffffL << FIXED_FRACBITS)
 #define FIXED_FRAC_MASK (~FIXED_INT_MASK)
@@ -112,7 +145,9 @@ typedef long fixedp;
 #define _Q1      1.0
 #define Q1 		 double2q(_Q1)
 #define _Q0_5	 0.5
+#define _Q1_5	 1.5
 #define Q0_5	 double2q(_Q0_5)
+#define Q1_5	 double2q(_Q1_5)
 #define _Q10	 10.0
 #define Q10		 double2q(_Q10)
 #define _Q20	 20.0
@@ -131,6 +166,8 @@ typedef long fixedp;
 // fracbits, then use q2q to convert each operand beforehand.
 #define qadd(a, b) ((a) + (b))
 #define qsub(a, b) ((a) - (b))
+
+
 
 /**
  * q2q - convert one fixed point type to another
@@ -270,6 +307,10 @@ fixedp qtan(fixedp theta);
  * fixedp2a - converts a fixed point number with default fracbits to a string
  */
 char *q2a(char *buf, fixedp n);
+
+
+#define PSHIFT_TONE(x) qpow(Q2, qmul(x, Q1_12  ))
+#define PSHIFT_CENT(x) qpow(Q2, qmul(x, Q1_1200))
 
 #ifdef __cplusplus
 }       // extern C

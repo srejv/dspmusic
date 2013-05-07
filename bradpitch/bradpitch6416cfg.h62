@@ -37,6 +37,7 @@
 	.global	_HSRTDX_rec
 	.global	GBL_stackbeg
 	.global	_c_int00
+	.global	_c_inpinterrupt
 	.global	_c_int11
 	.global	SWI_F_iexec
 	.global	SWI_F_run

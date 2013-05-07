@@ -34,6 +34,7 @@
 
 #include "brad_3bandeq.h"
 #include "qmath.h"
+#include "brad_input.h"
 
 // -----------
 //| Constants |
@@ -129,3 +130,27 @@ fixedp do_3band(EQSTATE* es, fixedp sample)
 
 
 //----------------------------------------------------------------------------
+
+void eq_setParam(EQSTATE* es, Uint32 param, int val) {
+	static int lowf, midf, highf;
+	switch(param) {
+	case EQ_ACTIVE: break;
+	case EQ_HIGH_GAIN:
+		es->hg = val*255;
+		break;	
+	case EQ_MID_GAIN:
+		es->mg = val*255;
+		break;
+	case EQ_LOW_GAIN:
+		es->lg = val*255;
+		break;
+	case EQ_HIGH_FREQ:
+	case EQ_MID_FREQ:
+	case EQ_LOW_FREQ:
+		lowf = *((int*)EQ_LOW_FREQ);
+		midf = *((int*)EQ_MID_FREQ);
+		highf = *((int*)EQ_HIGH_FREQ);
+		init_3band_state(es, lowf,	midf, highf);
+		break;
+	}
+}

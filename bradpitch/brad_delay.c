@@ -1,12 +1,13 @@
 
 #include "brad_delay.h"
 #include "definebrad.h"
+#include "brad_input.h"
 
 void setupDelayParams(DelayParams *this, fixedp *buffer, Uint32 bufferSize) {
 	this->wp = 0;
 	this->rp = 0;
 	this->inc = Q1;
-	this->fb = float2q(0.01f);
+	this->fb = float2q(0.8f);
 
 	this->useExternalFeedback = 0;
 	this->externalFbSample = 0;
@@ -18,6 +19,8 @@ void setupDelayParams(DelayParams *this, fixedp *buffer, Uint32 bufferSize) {
 	this->delayInSamples = 0;
 	this->buffer = buffer;
 	this->bufferSize = bufferSize;
+
+	this->active = 0;
 
 	memset(buffer, 0, sizeof(fixedp)*bufferSize);
 }
@@ -69,11 +72,45 @@ void process_delay(DelayParams *this, fixedp *process, Uint32 processSize) {
 	return;
 }
 
-void setDelay(DelayParams *this, int delayInSamples) {
+void delay_setParam(DelayParams *this, Uint32 param, int val) {
+	switch(param) {
+	case DELAY_ACTIVE:
+		this->active = val ? 1 : 0;
+		break;
+	case DELAY_TIME:
+		delay_setDelayTime(this, val);
+		break;
+	case DELAY_MIX:
+		delay_setMix(this, val);
+		break;
+	case DELAY_FDB:
+		delay_setFb(this, val);
+		break;
+	}
+}
+
+void delay_setDelayTime(DelayParams *this, int delayInSamples) {
 	// subtract to make read index
 	this->rp = int2q(this->wp - delayInSamples); // cast as int!
 
 	// check and wrap BACKWARDS if the index is negative
 	if( this->rp < 0 )
 		this->rp += int2q(this->bufferSize);
+}
+
+void delay_setMix(DelayParams *this, int mix) {
+	this->wet = mix;
+
+	if(this->wet > AUDIOMAX) this->wet = AUDIOMAX;
+	else if(this->wet < 0) this->wet = 0;
+
+	this->dry = (Q1 - 1) - this->wet;
+}
+
+void delay_setFb(DelayParams *this, int fb) {
+
+	this->fb = fb;
+	if(this->fb > Q1) this->fb = Q1;
+	else if(this->fb < -Q1) this->fb = -Q1;
+
 }

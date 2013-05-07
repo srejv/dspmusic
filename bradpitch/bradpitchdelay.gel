@@ -1,26 +1,28 @@
 
-menuItem "Brad Pitch Delay"
+menuitem "Brad Pitch Delay"
 
 /* 
 	Tid i millisekunder (måste konverteras till samples, baserat på SAMPLE_RATE)
 	Ni vet hur det är. 
 */
-slider Time(0, 2000, 100, 20, delay_in_msec) {
-	
+slider Time(0, 48000, 100, 20, delay) {
+	//delayParams
+	delayParams.rp = (long)(((delayParams.wp * (1<<15)) - (delay * (1<<15))) >> 30);
 }
 
 /* 
 	Hur mycket feedback det är. 
 */ 
-slider Feedback(0, 1000, 10, 2, feedback_in_pct) {
-
+slider Feedback(0, 32767, 10, 2, feedback) {
+	delayParams.fb = feedback;
 }
 
 /*
 	Mix, wet/dry signal. Mix = Wet. Mix/unmixed. Tror jag.
 */
-slider Mix(0, 1000, 10, 2, mix_in_pct ) {
-	
+slider Mix(0, 32767, 10, 2, mix ) {
+	delayParams.wet = mix;
+	delayParams.dry = 32767 - mix;
 }
 
 /*
@@ -34,6 +36,6 @@ slider UseExternalFeedback(0, 1, 1, 1, use_external_fb) {
 /*
 	Vilken typ av delay? :\ :/ vsmg?
 */
-slider Type(0, 0, 0, 0, delay_type) {
+/*slider Type(0, 10, 0, 0, delay_type) {
 	
-}
+}*/

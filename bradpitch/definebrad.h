@@ -4,6 +4,7 @@
 #define DEFINE_BRAD_H_
 
 #include "qmath.h"
+#include <tistdtypes.h>
 
 #define SAMPLE_RATE 48000
 #define PROCESS_SIZE 256
@@ -13,6 +14,8 @@
 
 #define _Q0_2	0.2
 #define Q0_2 	double2q(_Q0_2)
+
+extern Uint32 HANN[1024];
 
 /* Memory Area Defintions */
 

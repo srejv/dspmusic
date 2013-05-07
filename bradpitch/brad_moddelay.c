@@ -3,6 +3,7 @@
 #include "brad_moddelay.h"
 #include "wt.h"
 #include "brad_delay.h"
+#include "brad_input.h"
 
 // 48000 * 0.1s = 4800
 fixedp modDelayBuffer[4800];
@@ -145,9 +146,58 @@ void process_ModDelay(ModDelayParams *this, fixedp *process) {
 
 		// 3. set the delay & cook
 		delayInSamples = _qmul(fDelay, SAMPLE_RATE, FIXED_FRACBITS, 0, 0); // INTE RÄTT
-		setDelay(&this->delay, delayInSamples); // Osäker på detta :\
+		delay_setDelayTime(&this->delay, delayInSamples); // Osäker på detta :\
 
 		// 4. get the delay output one channel in
 		process_delay(&this->delay, &process[i], 1);
+	}
+}
+
+void flanger_setParam(ModDelayParams *t, Uint32 param, int val) {
+	switch(param) {
+	case FLANGER_ACTIVE:
+		break;
+	case FLANGER_FEEDBACK:
+		t->delay.fb = val*255;
+		break;
+	case FLANGER_MIX:
+		t->delay.wet = val*255;
+		t->delay.dry = Q1 - (val*255);
+		break;
+	case FLANGER_MOD_DEPTH:
+		if(val < 0) break;
+
+		t->fModDepth_pct = val*255;
+		if(t->fModDepth_pct >= Q1) t->fModDepth_pct = Q1-1;
+		break;
+	case FLANGER_MOD_FREQ:
+		if(val < 0) break;
+		t->fModFrequency_Hz = val*1024;
+		WaveTable_cookFrequency(&t->LFO, t->fModFrequency_Hz);
+		break;
+	}
+}
+
+void vibrato_setParam(ModDelayParams *t, Uint32 param, int val) {
+	switch(param) {
+	case VIBRATO_ACTIVE:
+	case VIBRATO_FEEDBACK:
+	case VIBRATO_MIX:
+	case VIBRATO_MOD_DEPTH:
+	case VIBRATO_MOD_FREQ:
+		break;
+	}
+}
+
+void chorus_setParam(ModDelayParams *t, Uint32 param, int val) {
+	
+	switch(param) {
+	case CHORUS_ACTIVE:
+	case CHORUS_FEEDBACK:
+	case CHORUS_MIX:
+	case CHORUS_MOD_DEPTH:
+	case CHORUS_MOD_FREQ:
+	case CHORUS_OFFSET:
+		break;
 	}
 }

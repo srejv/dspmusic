@@ -20,6 +20,7 @@
 #define __EQ3BAND__
 
 #include "qmath.h"
+#include "tistdtypes.h"
 
 // ------------
 //| Structures |
@@ -64,6 +65,8 @@ typedef struct
 
 extern void   init_3band_state(EQSTATE* es, int lowfreq, int highfreq, int mixfreq);
 extern fixedp do_3band(EQSTATE* es, fixedp sample);
+
+extern void eq_setParam(EQSTATE* es, Uint32, int val);
 
 
 #endif // #ifndef __EQ3BAND__

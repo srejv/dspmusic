@@ -1,0 +1,21 @@
+
+menuitem "Brad Pitch Dist"
+
+/* 
+	Tid i millisekunder (måste konverteras till samples, baserat på SAMPLE_RATE)
+	Ni vet hur det är. 
+*/
+slider Lvl1(0, 32767, 1, 1, l1) {
+	//delayParams
+	distParam.lvl1 = l1;
+}
+
+slider Lvl2(0, 32767, 1, 1, l2) {
+	//delayParams
+	distParam.lvl2 = l2;
+}
+
+slider Gain(0, 3000, 1, 1, g) {
+	distParam.gain = (g/100) * (1 << 15);
+	distParam.maxGain = ((long)((((long long)0xFFFFFFFFL) << (30)) / distParam.gain));
+}

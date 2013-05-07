@@ -2,6 +2,7 @@
 #include "qmath.h"
 #include "brad_pitch_instrumental.h"
 #include "definebrad.h"
+#include "brad_input.h"
 
 
 void process_pitchshift(PShift *this, fixedp *process) {
@@ -15,26 +16,26 @@ void process_pitchshift(PShift *this, fixedp *process) {
 	fixedp bufOverTwo = 2 * qinv( fixedBufSize ); 
 	for(i = 0; i < PROCESS_SIZE; i++ ) {
 		in = process[i];
-		fi = short2q(i);
+		fi = int2q(i);
 
 		// Envelope pointer1 
-		ep1 = (int)qipart( qsub(this->rp1, fi) );
+ 		ep1 = q2int( qsub(this->rp1, fi));
 		if(ep1 < 0) ep1 = qadd(ep1, PSHIFT_BUFSIZE);
 		
 		// Calculate read pointer 2 and envelope pointer 2
 		rp2 = qadd(this->rp1, bufOverTwo);
 		if(rp2 >= fixedBufSize) rp2 = qsub(rp2, fixedBufSize);
-		ep2 = (int)qipart( qsub( rp2, fi ) );
+		ep2 = q2int( qsub( rp2, fi ) );
 		if(ep2 < 0) ep2 = qadd(ep2, PSHIFT_BUFSIZE);
 
 		// Get signal for read pointer 1
-		rpi = (int)qipart( this->rp1 );		
+		rpi = q2int( this->rp1 );		
 		frac = qfpart( this->rp1 );
 		next = (rpi != PSHIFT_BUFSIZE-1 ? this->pbuf[rpi+1] : this->pbuf[0]);
 		
 		wetSignal = qmul( qadd(this->pbuf[rpi], qmul( frac, qsub( next, this->pbuf[rpi] ) ) ), this->env[ep1] );
 	 			
-		rpi = (int)qipart( rp2 );
+		rpi = q2int( rp2 );
 		frac = qfpart( rp2 );
 		next = (rpi != PSHIFT_BUFSIZE-1 ? this->pbuf[rpi+1] : this->pbuf[0]);
 	 	
@@ -60,7 +61,7 @@ void PShift_setupPitchParams(PShift *this) {
 
 	// Setup pitch shift
 	this->rp1 = 0;
-	this->inc = qpow(Q2, qmul(short2q(7), stepratio)); // 2^pitch/12
+	this->inc = qpow(Q2, qmul(short2q(-7), stepratio)); // 2^pitch/12
 	this->gain = float2q(0.9f);
 	this->fdb = 0;
 	this->wp = 0;
@@ -75,4 +76,21 @@ void PShift_setPitchStep(PShift *this, short step) {
 	fixedp fstep = short2q(step);
 	fixedp stepratio = Q1_12;
 	this->inc =  qpow(Q2, qmul(fstep, stepratio)); // 2^pitch/12
+}
+
+void pitcht_setParam(PShift *t, Uint32 param, int val) {
+	switch(param) {
+	case PITCHT_ACTIVE:
+		break;
+	case PITCHT_CENT:
+	case PITCHT_FEEDBACK:
+	case PITCHT_PITCHSTEP:
+		
+		break;
+	case PITCHT_MIX:
+		t->wet = val * 255;
+		if(t->wet > Q1) { t->wet = Q1; }
+		t->dry = Q1 - t->wet;
+		break;
+	}
 }
